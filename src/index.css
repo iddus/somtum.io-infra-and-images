@@ -1,0 +1,13 @@
+* {
+  margin: 0em;
+}
+
+#footer {
+  position: fixed;
+  padding: 1em 1em 1em 1em;
+  /* counter-clockwise */
+  bottom: 0;
+  width: 100%;
+  background: grey;
+}
+/* https://www.geeksforgeeks.org/how-to-create-footer-to-stay-at-the-bottom-of-a-web-page/ */
