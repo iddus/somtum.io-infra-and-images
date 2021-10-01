@@ -1,11 +1,8 @@
-import { Fragment } from "react";
-
 const Footer = () => {
   return (
-    <Fragment>
+    <div className="p-4 bg-info">
       <p>Built and maintained by Refayat Haque</p>
-      <p>v0.0.0</p>
-    </Fragment>
+    </div>
   );
 };
 
