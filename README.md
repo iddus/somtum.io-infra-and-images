@@ -19,9 +19,7 @@ Tasks & notes:
    _Should be modular enough to show specific information useful for 'Update' or 'Create'_
    _Use whatever the slots equivalent for React is_
    _Should have simple tests_
-3. Create a simple node.js file to get the SDK methods right before proceeding to build out the back-end
-   _It's not possible to use the node SDK in front-end apps, so will have to create a proper back-end with API Gateway and Cloud Functions_
-4. Create custom hook(s) to allow for GET, POST, PUT/PATCH, DESTROY requests\
-   _Use Max's useHttp custom hook as guide_
-   _Create a new service account with only the required permissions and use that for the SDK_
-   _Create some dummy buckets_
+3. Create a simple node.js file to get the SDK methods right before proceeding to build out the backend
+   _It's not possible to use the node SDK in frontend apps, so will have to create a proper backend with API Gateway and Cloud Run microservices_
+4. Copy Max's `use-http.js` custom hook to allow for GET, POST, PUT/PATCH, DESTROY requests\
+   _URLs will differ based on operations, as each operation is being executed by a separate microservice_

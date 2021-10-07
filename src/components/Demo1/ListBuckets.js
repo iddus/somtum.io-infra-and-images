@@ -1,15 +1,6 @@
-import { useEffect, useState } from "react";
 import { Fragment } from "react";
-import useListBuckets from "./hooks/use-list-buckets";
 
 const ListBuckets = () => {
-  // calling custom hook and destructuring out what it returns
-  const { listBuckets, isLoading, error, data } = useListBuckets();
-
-  useEffect(() => {
-    listBuckets();
-  }, [listBuckets]);
-
   return (
     <Fragment>
       <table class="table table-sm">
