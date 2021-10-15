@@ -1,9 +1,34 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
+import UpdateBucket from "./UpdateBucket";
+import DeleteBucket from "./DeleteBucket";
 
 const ListBuckets = () => {
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const showUpdateModalHandler = () => {
+    setShowUpdateModal(!showUpdateModal);
+  };
+
+  const showDeleteModalHandler = () => {
+    setShowDeleteModal(!showDeleteModal);
+  };
+
   return (
     <Fragment>
-      <table class="table table-sm">
+      {showUpdateModal && (
+        <UpdateBucket
+          showUpdateModalHandler={showUpdateModalHandler}
+          content="update"
+        ></UpdateBucket>
+      )}
+      {showDeleteModal && (
+        <DeleteBucket
+          showDeleteModalHandler={showDeleteModalHandler}
+          content="delete"
+        ></DeleteBucket>
+      )}
+      <table className="table table-sm">
         <thead>
           <tr>
             <th scope="col">Bucket name</th>
@@ -24,18 +49,24 @@ const ListBuckets = () => {
             <td>Storage class</td>
             <td>Created on</td>
             <td>Updated on</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Bucket name</td>
-            <td>Location type</td>
-            <td>Location</td>
-            <td>Storage class</td>
-            <td>Created on</td>
-            <td>Updated on</td>
-            <td></td>
-            <td></td>
+            <td>
+              <button
+                onClick={showUpdateModalHandler}
+                type="button"
+                className="btn btn-info"
+              >
+                Update
+              </button>
+            </td>
+            <td>
+              <button
+                onClick={showDeleteModalHandler}
+                type="button"
+                className="btn btn-danger"
+              >
+                Delete
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>

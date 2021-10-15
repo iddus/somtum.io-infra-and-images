@@ -12,9 +12,9 @@ Naming convention:
 Objective: Use custom hooks to allow user to create, read, update and destroy buckets in GCP\
 Tasks & notes:
 
-1. Create basic app structure, App.js should render ListBuckets.js, CreateUpdateBucket.js\
-   _ListBuckets.js should have 'Delete'/'Update' button, and CreateUpdateBucket.js should be a modal that pops up if 'Update' is clicked_
-   _All components should have simple tests_
+1. Create basic app structure - App.js should render ListBuckets.js, and ListBuckets should render UpdateBucket.js and DeleteBucket.js\
+   _ListBuckets.js should have 'Delete'/'Update' button, and corresponding components should be rendered conditionally based on what's selected, each one of these components will render the reusable Modal.js with some basic custom content_ ✅
+   _All components should have simple tests_ 🚧
 2. Use modal component in UI dir to render a form when 'Update' clicked, or when user chooses to 'Create'\
    _Should be modular enough to show specific information useful for 'Update' or 'Create'_
    _Use whatever the slots equivalent for React is_
