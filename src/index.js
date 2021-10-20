@@ -5,6 +5,11 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 // https://create-react-app.dev/docs/adding-bootstrap
+import { makeServer } from "./server";
+
+if (process.env.NODE_ENV === "development") {
+  makeServer({ environment: "development" });
+}
 
 ReactDOM.render(
   <React.StrictMode>

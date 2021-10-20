@@ -3,9 +3,22 @@ import Nav from "./components/Layout/Nav";
 import classes from "./App.module.css";
 import ListBuckets from "./components/Demo1/ListBuckets";
 
+import React, { useState, useEffect } from "react";
+
 const companyName = "Refayat Haque LLC";
 
 const App = () => {
+  let [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/users")
+      .then((res) => res.json())
+      .then((json) => {
+        setUsers(json.users);
+      });
+    console.log(users);
+  }, []);
+
   return (
     <div className={classes.pagewrap}>
       {/* https://dev.to/akshay_rajput/keep-footer-at-bottom-of-page-using-flexbox-4a6f */}
@@ -15,6 +28,11 @@ const App = () => {
           <Nav></Nav>
         </nav>
       </header>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>{user.name}</li>
+        ))}
+      </ul>
       <main className={classes.main}>
         <h2>Demo1</h2>
         <ListBuckets></ListBuckets>
