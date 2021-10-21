@@ -2,22 +2,29 @@ import Footer from "./components/Layout/Footer";
 import Nav from "./components/Layout/Nav";
 import classes from "./App.module.css";
 import ListBuckets from "./components/Demo1/ListBuckets";
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 const companyName = "Refayat Haque LLC";
 
 const App = () => {
-  let [users, setUsers] = useState([]);
+  let [buckets, setBuckets] = useState({});
+
+  // buckets
+  const fetchBucketsHandler = useCallback(async () => {
+    try {
+      const response = await fetch("/api/buckets");
+      const data = await response.json();
+      console.log(data);
+      setBuckets(data);
+    } catch (error) {
+      console.log(error);
+    }
+    // if you try to console.log(buckets) here you won't be able to log the buckets state value as React will complain that you're missing "buckets" in the dependency array below
+  }, []);
 
   useEffect(() => {
-    fetch("/api/users")
-      .then((res) => res.json())
-      .then((json) => {
-        setUsers(json.users);
-      });
-    console.log(users);
-  }, []);
+    fetchBucketsHandler();
+  }, [fetchBucketsHandler]);
 
   return (
     <div className={classes.pagewrap}>
@@ -29,8 +36,8 @@ const App = () => {
         </nav>
       </header>
       <ul>
-        {users.map((user) => (
-          <li key={user.id}>{user.name}</li>
+        {buckets.map((bucket) => (
+          <li key={bucket.id}>{bucket.name}</li>
         ))}
       </ul>
       <main className={classes.main}>

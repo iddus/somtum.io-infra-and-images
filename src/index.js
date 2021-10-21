@@ -5,7 +5,8 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 // https://create-react-app.dev/docs/adding-bootstrap
-import { makeServer } from "./server";
+import { makeServer } from "./mocking/server";
+// https://miragejs.com/quickstarts/react/develop-an-app/#step-3-start-your-server-in-development
 
 if (process.env.NODE_ENV === "development") {
   makeServer({ environment: "development" });
