@@ -1,6 +1,0 @@
-* {
-  margin: 0em !important;
-  /* needed !important to overwrite bootstrap margins */
-  /* padding: 0em !important; */
-  /* ^ makes everything super fugly */
-}
