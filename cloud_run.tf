@@ -2,7 +2,6 @@ resource "google_cloud_run_service" "basic_express_microservice" {
   name = "basic-express-microservice"
   # naming consistency must be ensured between this and the the container's cloudbuild.yaml file (look at substitutions there)
   location = var.region
-
   template {
     spec {
       containers {
@@ -11,9 +10,10 @@ resource "google_cloud_run_service" "basic_express_microservice" {
       }
     }
   }
-
   traffic {
     percent         = 100
     latest_revision = true
   }
+  depends_on = [google_project_service.cloud_run]
+  # https://github.com/Lioric/go-cloud/blob/0a3580612654e801b29df8d786d64f53da227867/samples/guestbook/gcp/main.tf
 }
