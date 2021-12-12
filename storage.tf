@@ -27,3 +27,5 @@ resource "google_storage_bucket" "alphatauri_honda" {
   name     = "alphatauri_honda"
   location = var.region
 }
+
+# https://cloud.google.com/storage/docs/naming-buckets#requirements

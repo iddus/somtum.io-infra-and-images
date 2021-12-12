@@ -2,8 +2,10 @@
   "name": "basic-express-container",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
+    // ^ added as per https://cloud.google.com/run/docs/quickstarts/build-and-deploy/nodejs
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

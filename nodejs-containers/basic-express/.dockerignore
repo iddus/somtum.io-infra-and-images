@@ -1,0 +1,4 @@
+node_modules
+npm-debug.log
+
+# https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
