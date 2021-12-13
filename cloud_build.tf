@@ -6,7 +6,7 @@ resource "google_cloudbuild_trigger" "basic_express_trigger" {
     name  = var.github_repo
     # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloudbuild_trigger#included_files
     push {
-      branch = "^master$"
+      branch = "^main$"
     }
   }
   filename   = "cloudbuild.yaml"
