@@ -1,11 +1,11 @@
 steps:
   # Build the container image
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/$PROJECT_ID/${_IMAGE}:${$COMMIT_SHA}", "."]
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/${_IMAGE}:$COMMIT_SHA", "."]
     # https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values#using_default_substitutions
   # Push the container image to Container Registry
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/$PROJECT_ID/${_IMAGE}:${$COMMIT_SHA}"]
+    args: ["push", "gcr.io/$PROJECT_ID/${_IMAGE}:$COMMIT_SHA"]
   # Deploy container image to Cloud Run
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: gcloud
@@ -25,7 +25,7 @@ substitutions:
   _REGION: us-east4
   # https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values
 images:
-  - gcr.io/$PROJECT_ID/${_IMAGE}
+  - gcr.io/$PROJECT_ID/${_IMAGE}:$COMMIT_SHA
 # https://cloud.google.com/build/docs/building/build-containers#store-images
 # "If you want to store the image as part of your build flow and want to display the image in the build results, use both the Docker push command and the images field in your build config file."
 
