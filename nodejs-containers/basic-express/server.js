@@ -11,7 +11,7 @@ const uuid = uuidv4();
 // https://dev.to/rahmanfadhil/how-to-generate-unique-id-in-javascript-1b13
 
 app.get("/", (req, res) => {
-  res.send(`Hello World! ${uuid}`);
+  res.send(`hello world! ${uuid}`);
 });
 
 const port = process.env.PORT || 8080;
