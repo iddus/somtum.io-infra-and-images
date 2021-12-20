@@ -19,4 +19,4 @@ EXPOSE 8080
 CMD [ "node", "server.js" ]
 
 # https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
-# ^ checked with gcp official sample, it's the same - https://github.com/GoogleCloudPlatform/nodejs-docs-samples/blob/main/run/helloworld/Dockerfile
+# ^ checked against gcp official sample, it's the same - https://github.com/GoogleCloudPlatform/nodejs-docs-samples/blob/main/run/helloworld/Dockerfile
