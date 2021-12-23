@@ -26,14 +26,24 @@ resource "google_project_iam_custom_role" "cloud-build-basic-express-custom-role
   role_id     = "cloudBuildBasicExpress"
   title       = "Cloud Build Basic Express"
   description = "Custom role with permissions for cloud build to deploy basic express cloud run microservice"
-  permissions = ["run.services.get"]
+  permissions = ["run.services.get", "cloudbuild.builds.create", "cloudbuild.builds.update", "cloudbuild.builds.list", "cloudbuild.builds.get", "logging.logEntries.create", "storage.buckets.create", "storage.buckets.get", "storage.buckets.list",
+    "storage.objects.list",
+    "storage.objects.update",
+    "storage.objects.create",
+    "storage.objects.delete",
+    "storage.objects.get",
+  ]
+  # adding permissions based on what I see in the console - under "IAM" there is the default cloud build service account (https://cloud.google.com/iam/docs/service-accounts#default), and under the little downward pointing arrow there is "analyzed permissions" - based on what I see here I am adding permissions, and aggregating with whatever else I need, e.g., for cloud run
+  # also used this as guide - https://cloud.google.com/build/docs/cloud-build-service-account#default_permissions_of_service_account
+  # shouldn't need storage access because in cloudbuild.yaml I set `CLOUD_LOGGING_ONLY` - https://cloud.google.com/build/docs/securing-builds/store-manage-build-logs#store-logs
 }
 
 resource "google_project_iam_binding" "cloud_build_basic_express_binding" {
   project = var.project_id
   role    = google_project_iam_custom_role.cloud-build-basic-express-custom-role.id
   members = [
-    google_service_account.cloud_build_basic_express_sa.email,
+    "serviceAccount:${google_service_account.cloud_build_basic_express_sa.email}",
+    # when listing members it must follow this format
   ]
 }
 
