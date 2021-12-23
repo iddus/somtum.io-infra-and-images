@@ -25,3 +25,9 @@ resource "google_project_service" "cloud_build" {
 
 # kept getting errors that cloud build and cloud run can't be provisioned because was missing cloud resource manager api, so tried to run with resource above but it didn't work, so had to enable the api manually from console
 # also not sure if the api enablement for cloud run and cloud build was even necessary, maybe only cloud resource manager api enablement was necessary? Saying this because seeing a lot of other services' apis enabled by default, like cloud storage, container registry, pub/sub, etc.
+
+resource "google_project_service" "iam" {
+  service                    = "iam.googleapis.com"
+  disable_on_destroy         = false
+  disable_dependent_services = false
+}
