@@ -1,3 +1,7 @@
+resource "google_service_account" "cloud_run_basic_express_sa" {
+  account_id = "cloud-run-basic-express-sa"
+}
+
 data "google_iam_policy" "no_auth_for_cloud_run_invoke" {
   binding {
     role = "roles/run.invoker"
@@ -48,8 +52,10 @@ resource "google_project_iam_custom_role" "cloud-build-basic-express-custom-role
     "artifactregistry.versions.get",
     "artifactregistry.versions.list",
     # "artifactregistry.yumartifacts.*" - tf says this is invalid
+    "run.services.create",
+    "run.services.update"
   ]
-  # created list of permissions based on what I think is required, used permissions listed in the default cloud build service account (https://cloud.google.com/iam/docs/service-accounts#default / https://cloud.google.com/build/docs/cloud-build-service-account#default_permissions_of_service_account) and in the artifact registry docs (https://cloud.google.com/artifact-registry/docs/transition/changes-gcp#artifact-registry / hhttps://cloud.google.com/iam/docs/understanding-roles#artifact-registry-roles) as reference
+  # created list of permissions based on what I think is required, got first 5 permissions from what's in the default cloud build service account (https://cloud.google.com/iam/docs/service-accounts#default / https://cloud.google.com/build/docs/cloud-build-service-account#default_permissions_of_service_account), then the following `artifactRegistry` ones from the artifact registry docs (https://cloud.google.com/artifact-registry/docs/transition/changes-gcp#artifact-registry / hhttps://cloud.google.com/iam/docs/understanding-roles#artifact-registry-roles), and the remaining 2 permissions are from cloud run deployment docs (https://cloud.google.com/run/docs/reference/iam/roles#additional-configuration)
   # didn't include storage access because in cloudbuild.yaml I set `CLOUD_LOGGING_ONLY` (https://cloud.google.com/build/docs/securing-builds/store-manage-build-logs#store-logs), also because I'm using artifact registry instead of container registry (more details on this can be found in doc links in README)
 }
 
