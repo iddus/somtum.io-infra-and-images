@@ -27,33 +27,30 @@ resource "google_project_iam_custom_role" "cloud-build-basic-express-custom-role
   title       = "Cloud Build Basic Express"
   description = "Custom role with permissions for cloud build to deploy basic express cloud run microservice"
   permissions = [
-    # adding myself
-    "run.services.get",
-    "artifactregistry.repositories.uploadArtifacts",
-    "artifactregistry.tags.create",
-    "artifactregistry.tags.update",
-    # permissions cherry picked from default cloud build service account list
     "cloudbuild.builds.create",
     "cloudbuild.builds.update",
     "cloudbuild.builds.list",
     "cloudbuild.builds.get",
     "logging.logEntries.create",
-    "artifactregistry.repositories.list",
-    "artifactregistry.repositories.get",
-    "artifactregistry.repositories.downloadArtifacts",
-    "artifactregistry.files.list",
-    "artifactregistry.files.get",
-    "artifactregistry.packages.list",
+    # "artifactregistry.aptartifacts.*", - tf says this is invalid
+    # "artifactregistry.dockerimages.*", - tf says this is invalid
+    # "artifactregistry.files.*", - tf says this is invalid
     "artifactregistry.packages.get",
-    "artifactregistry.tags.list",
+    "artifactregistry.packages.list",
+    "artifactregistry.repositories.downloadArtifacts",
+    "artifactregistry.repositories.get",
+    "artifactregistry.repositories.list",
+    "artifactregistry.repositories.uploadArtifacts",
+    "artifactregistry.tags.create",
     "artifactregistry.tags.get",
-    "artifactregistry.versions.list",
+    "artifactregistry.tags.list",
+    "artifactregistry.tags.update",
     "artifactregistry.versions.get",
+    "artifactregistry.versions.list",
+    # "artifactregistry.yumartifacts.*" - tf says this is invalid
   ]
-  # adding permissions based on what I see in the console - under "IAM" there is the default cloud build service account (https://cloud.google.com/iam/docs/service-accounts#default), and under the little downward pointing arrow there is "analyzed permissions" - based on what I see here I am adding permissions, and aggregating with whatever else I need, e.g., for cloud run deployment
-  # also used this as guide - https://cloud.google.com/build/docs/cloud-build-service-account#default_permissions_of_service_account
-  # shouldn't need storage access because in cloudbuild.yaml I set `CLOUD_LOGGING_ONLY`, also because I decided to use artifact registry instead of container registry (details in README) - https://cloud.google.com/build/docs/securing-builds/store-manage-build-logs#store-logs
-  # https://cloud.google.com/build/docs/cloud-build-service-account#default_permissions_of_service_account doesn't include permissions to write (might be a mistake) so adding them myself based on what I see here - https://cloud.google.com/iam/docs/understanding-roles#artifact-registry-roles
+  # created list of permissions based on what I think is required, used permissions listed in the default cloud build service account (https://cloud.google.com/iam/docs/service-accounts#default / https://cloud.google.com/build/docs/cloud-build-service-account#default_permissions_of_service_account) and in the artifact registry docs (https://cloud.google.com/artifact-registry/docs/transition/changes-gcp#artifact-registry / hhttps://cloud.google.com/iam/docs/understanding-roles#artifact-registry-roles) as reference
+  # didn't include storage access because in cloudbuild.yaml I set `CLOUD_LOGGING_ONLY` (https://cloud.google.com/build/docs/securing-builds/store-manage-build-logs#store-logs), also because I'm using artifact registry instead of container registry (more details on this can be found in doc links in README)
 }
 
 resource "google_project_iam_binding" "cloud_build_basic_express_binding" {
