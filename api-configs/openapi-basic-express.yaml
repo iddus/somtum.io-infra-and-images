@@ -1,0 +1,21 @@
+swagger: "2.0"
+info:
+  title: basic-express-gateway
+  description: Sample API on API Gateway with a Cloud Run backend
+  version: 1.0.0
+schemes:
+  - https
+produces:
+  - application/json
+x-google-backend:
+  address: https://basic-express-microservice-moktnna77q-uk.a.run.app
+paths:
+  /:
+    get:
+      summary: basic-express
+      operationId: basic-express
+      responses:
+        "200":
+          description: A successful response
+          schema:
+            type: string

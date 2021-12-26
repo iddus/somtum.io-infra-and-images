@@ -16,6 +16,7 @@ resource "google_cloud_run_service_iam_policy" "no_auth_for_basic_express_micros
 }
 # ^ way to allow unauth'ed access to a microservice, i.e., if you don't have this configuration and try to hit the endpoint you'll get a 403
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloud_run_service#example-usage---cloud-run-service-noauth
+# https://cloud.google.com/run/docs/authenticating/public
 
 resource "google_service_account" "cloud_build_basic_express_sa" {
   account_id = "cloud-build-basic-express-sa"
