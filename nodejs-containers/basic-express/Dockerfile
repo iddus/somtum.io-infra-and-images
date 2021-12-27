@@ -7,9 +7,9 @@ WORKDIR /usr/src/app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY nodejs-containers/basic-express/package*.json ./
+# ^ different from node.js doc because: https://stackoverflow.com/questions/56605865/cloud-build-not-able-to-find-the-dockerfile
 # COPY package*.json ./
 # ^ use for local testing (https://nodejs.org/en/docs/guides/nodejs-docker-webapp/#building-your-image) - running this in cloud build results in this error: "COPY failed: no source files were specified"
-# https://stackoverflow.com/questions/56605865/cloud-build-not-able-to-find-the-dockerfile
 
 RUN npm install
 # If you are building your code for production
@@ -17,6 +17,7 @@ RUN npm install
 
 # Bundle app source
 COPY nodejs-containers/basic-express/server.js ./
+# ^ different from node.js doc because: https://stackoverflow.com/questions/56605865/cloud-build-not-able-to-find-the-dockerfile
 
 EXPOSE 8080
 CMD [ "node", "server.js" ]
