@@ -60,13 +60,24 @@ resource "google_project_iam_custom_role" "cloud-build-basic-express-custom-role
   depends_on = [google_project_service.iam]
 }
 
+resource "google_project_iam_binding" "cloud_build_basic_express_binding" {
+  project = var.project_id
+  role    = google_project_iam_custom_role.cloud-build-basic-express-custom-role.id
+  members = [
+    "serviceAccount:${google_service_account.cloud_build_basic_express_sa.email}",
+    # when listing members it must follow this format
+  ]
+  depends_on = [google_project_service.iam]
+}
+# ^ addresses - ERROR: (gcloud.run.deploy) PERMISSION_DENIED: Permission 'run.services.get' denied on resource 'namespaces/main-334018/services/basic-express-microservice' (or resource may not exist).
+
 data "google_service_account" "default_cloud_run_runtime_sa" {
   account_id = "${var.project_number}-compute@developer.gserviceaccount.com"
   # `account_id` = email
   depends_on = [google_project_service.iam]
 }
 
-resource "google_service_account_iam_binding" "demo_2_admin_account_iam" {
+resource "google_service_account_iam_binding" "cloud_build_basic_express_sa_binding" {
   service_account_id = data.google_service_account.default_cloud_run_runtime_sa.name
   role               = "roles/iam.serviceAccountUser"
   members = [
@@ -78,14 +89,17 @@ resource "google_service_account_iam_binding" "demo_2_admin_account_iam" {
 # "When a container is deployed to a Cloud Run service, it runs with the identity of the Runtime Service Account of this Cloud Run service. Because Cloud Build can deploy new containers automatically, Cloud Build needs to be able to act as the Runtime Service Account of your Cloud Run service."
 # https://cloud.google.com/run/docs/reference/iam/roles#additional-configuration / https://cloud.google.com/build/docs/deploying-builds/deploy-cloud-run#continuous-iam
 
-resource "google_project_iam_binding" "cloud_build_basic_express_binding" {
-  project = var.project_id
-  role    = google_project_iam_custom_role.cloud-build-basic-express-custom-role.id
-  members = [
-    "serviceAccount:${google_service_account.cloud_build_basic_express_sa.email}",
-    # when listing members it must follow this format
-  ]
+resource "google_service_account" "apig_gateway_basic_express_sa" {
+  account_id = "apig-gateway-basic-express-sa"
   depends_on = [google_project_service.iam]
 }
+# "Identity to be used by gateway"
 
-# ^ addresses - ERROR: (gcloud.run.deploy) PERMISSION_DENIED: Permission 'run.services.get' denied on resource 'namespaces/main-334018/services/basic-express-microservice' (or resource may not exist).
+resource "google_project_iam_binding" "project" {
+  project = var.project_id
+  role    = "roles/run.invoker"
+  members = [
+    "serviceAccount:${google_service_account.apig_gateway_basic_express_sa.email}"
+  ]
+}
+# https://cloud.google.com/api-gateway/docs/configure-dev-env?&_ga=2.177696806.-2072560867.1640626239#configuring_a_service_account

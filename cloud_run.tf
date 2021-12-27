@@ -17,6 +17,8 @@ resource "google_cloud_run_service" "basic_express_microservice" {
   }
   depends_on = [google_project_service.cloud_run]
   # https://github.com/Lioric/go-cloud/blob/0a3580612654e801b29df8d786d64f53da227867/samples/guestbook/gcp/main.tf
+  autogenerate_revision_name = true
+  # https://github.com/hashicorp/terraform-provider-google/issues/9438#issuecomment-871946786
 }
 
 output "basic_express_microservice_url" {
