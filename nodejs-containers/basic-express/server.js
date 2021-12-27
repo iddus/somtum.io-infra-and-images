@@ -12,7 +12,7 @@ const app = express();
 const uuid = v4();
 // https://www.npmjs.com/package/uuid
 
-app.get("/", (req, res) => {
+app.get("/hello", (req, res) => {
   res.send(`response from basic-express app / version:${uuid}`);
 });
 
