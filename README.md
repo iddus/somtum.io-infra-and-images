@@ -14,7 +14,13 @@
   - https://cloud.google.com/api-gateway/docs/about-api-gateway#api-gateway
   - "OpenAPI Specification (formerly Swagger Specification) is an API description format for REST APIs. An OpenAPI file allows you to describe your entire API" - https://swagger.io/docs/specification/about/
 
-  ### `gcloud` commands
+### `gcloud`
 
-  - gcloud run services list
-    - gives _region, endpoint, associated service account_
+- gcloud run services list
+  - gives _region, endpoint, associated service account_
+
+### Creating new projects
+
+1. Create new `gcloud` configuration - `gcloud init` then select option 2 (https://cloud.google.com/sdk/docs/initializing)
+2. Link github repo in cloud build
+3. Manually enable resource manager API

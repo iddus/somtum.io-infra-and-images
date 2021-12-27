@@ -12,8 +12,8 @@ x-google-backend:
 paths:
   /:
     get:
-      summary: basic-express
-      operationId: basic-express
+      summary: basic-express microservice returns a response string with an uuid
+      operationId: basic-express get
       responses:
         "200":
           description: A successful response

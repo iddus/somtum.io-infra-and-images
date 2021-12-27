@@ -37,7 +37,6 @@ resource "google_project_service" "artifact_registry" {
 }
 
 # for API gateway - https://cloud.google.com/api-gateway/docs/configure-dev-env#enabling_required_services
-
 resource "google_project_service" "api_gateway" {
   service                    = "apigateway.googleapis.com"
   disable_on_destroy         = false
