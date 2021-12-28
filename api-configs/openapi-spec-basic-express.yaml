@@ -1,23 +1,27 @@
 # openapi2-run.yaml
-swagger: '2.0'
+swagger: "2.0"
 info:
   title: basic-express-api
   description: Sample API on API Gateway with a Cloud Run backend
   version: 1.0.0
 schemes:
-- https
+  - https
 produces:
-- application/json
+  - application/json
 x-google-backend:
   address: https://basic-express-microservice-44beddciua-uk.a.run.app
+security:
+  - apiKey: []
 paths:
   /hello:
     get:
       summary: Cloud Run hello world
       operationId: hello
       responses:
-        '200':
+        "200":
           description: A successful response
           schema:
             type: string
 # kept getting a 404 error when I tried to have a simple `/` path, I copied this verbatim from here (https://cloud.google.com/api-gateway/docs/get-started-cloud-run#creating_an_api_config) and just got rid of the `/assets/{asset}:` path
+# whatever is here has to match express.js routes in the server.js file, e.g., for ^ to work I needed to set `app.get("/hello", (req, res)...`
+# https://swagger.io/docs/specification/2-0/basic-structure/
