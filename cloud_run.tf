@@ -5,9 +5,11 @@ resource "google_cloud_run_service" "basic_express_microservice" {
   template {
     spec {
       containers {
-        image = "us-docker.pkg.dev/cloudrun/container/hello"
+        # image = "us-docker.pkg.dev/cloudrun/container/hello"
         # idea is to create and maintain resources with this dummy image, but then have cloudbuild build and push the actual image to container registry and then deploy to this cloud run service using the gcloud run deploy command
         # this will load a cute gcp dummy app with a girl, unicorn and boy saying "It's running!"
+        # ^ strategy is really unsustainable, need a better methodology
+        image = "us-east4-docker.pkg.dev/chrome-courage-336400/nodejs-containers/basic-express-container:latest"
       }
     }
   }
