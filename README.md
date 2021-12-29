@@ -22,8 +22,8 @@
 
 - Best practices in API design - https://swagger.io/resources/articles/best-practices-in-api-design/
 
-- Hitting endpoints with API key
-  `https://my-gateway-a12bcd345e67f89g0h.uc.gateway.dev/hello`
+- Hitting endpoints with API key in request
+  `https://my-gateway-a12bcd345e67f89g0h.uc.gateway.dev/hello?key=<API_key>`
 
 ### `gcloud`
 

@@ -11,7 +11,7 @@ produces:
 x-google-backend:
   address: https://basic-express-microservice-44beddciua-uk.a.run.app
 security:
-  - apiKey: []
+  - api_key: []
 paths:
   /hello:
     get:
@@ -25,3 +25,10 @@ paths:
 # kept getting a 404 error when I tried to have a simple `/` path, I copied this verbatim from here (https://cloud.google.com/api-gateway/docs/get-started-cloud-run#creating_an_api_config) and just got rid of the `/assets/{asset}:` path
 # whatever is here has to match express.js routes in the server.js file, e.g., for ^ to work I needed to set `app.get("/hello", (req, res)...`
 # https://swagger.io/docs/specification/2-0/basic-structure/
+
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "key"
+    in: "query"
+# https://github.com/GoogleCloudPlatform/endpoints-samples/blob/master/k8s/openapi.yaml

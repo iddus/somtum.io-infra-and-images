@@ -10,6 +10,7 @@ resource "google_cloud_run_service" "basic_express_microservice" {
         # this will load a cute gcp dummy app with a girl, unicorn and boy saying "It's running!"
         # ^ strategy is really unsustainable, need a better methodology
         image = "us-east4-docker.pkg.dev/chrome-courage-336400/nodejs-containers/basic-express-container:latest"
+        # https://cloud.google.com/artifact-registry/docs/docker/names#versions
       }
     }
   }
