@@ -11,7 +11,7 @@ abbreviations:
 - Since Cloud Run cannot be provisioned without a pre-existing image, a locally executable bash script should be provided to first, enable necessary APIs and create the Artifact Registry repo with tf, second, create the container image and push it to the just created Artifact Registry repo.
   - This bash script will **only need to be run the first time infra is provisioned in a project.**
 - Deployed container must be updated when container image source code dev branch is merged to master in github.
-  - I.e., have a Continuous Delivery mechanism (https://www.atlassian.com/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment)
+  - I.e., have a Continuous Delivery (CD) mechanism (https://www.atlassian.com/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment)
 
 ### steps
 
@@ -52,11 +52,15 @@ abbreviations:
 
 5. Create an API key to use in making a request to the container using API Gateway's default hostname URL path. APIs and services ➡️ Credentials ➡️ Create credentials
 
-- Test by hitting the default hostname (aka Gateway URL) with our path, which should [follow](https://cloud.google.com/api-gateway/docs/deploying-api#defining_the_endpoint_of_the_deployed_api_config) `https://basic-express-gw-<hash>.<region>.gateway.dev/hello?key=<API_key>`
+6. Test by hitting the default hostname (aka Gateway URL) with our path and the API key, which should [follow](https://cloud.google.com/api-gateway/docs/deploying-api#defining_the_endpoint_of_the_deployed_api_config) `https://basic-express-gw-<hash>.<region>.gateway.dev/hello?key=<API_key>`
   - The region in the Gateway URL above might not be what is in your `variables.tf`, not sure why...
   - You can find this URL at API Gateway ➡️ basic-express-api ➡️ Gateways
     - You can also run `gcloud api-gateway gateways describe basic-express-gw --location=<region>`
   - If this works the way it should, once hitting this endpoint, you will see something like `response from basic-express app / version:22804d19-5947-4d95-bd69-5a12c0b1d339`
+
+7. Test container image revisions by changing small things like the string in `nodejs-containers/basic-express/server.js`, and push to the main/master branch.
+
+- If the CD with Cloud Build is set up correctly, you should see your changed string when hitting the Gateway URL with our path and the API key
 
 ### notes
 
