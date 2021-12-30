@@ -10,18 +10,70 @@ abbreviations:
 - Requests must not be made directly to the microservice, it must go through API Gateway, and the API Gateway default hostname path corresponding to the microservice should require the API key to be included as a query string (aka [URL parameter](https://www.botify.com/learn/basics/what-are-url-parameters)).
 - Since Cloud Run cannot be provisioned without a pre-existing image, a locally executable bash script should be provided to first, enable necessary APIs and create the Artifact Registry repo with tf, second, create the container image and push it to the just created Artifact Registry repo.
   - This bash script will **only need to be run the first time infra is provisioned in a project.**
+- Deployed container must be updated when container image source code dev branch is merged to master in github.
+  - I.e., have a Continuous Delivery mechanism (https://www.atlassian.com/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment)
+
+### steps
+
+1. Create `variables.tf` file and fill out default values
+
+```
+  variable "region" {
+    type    = string
+    default = ""
+  }
+  variable "project_id" {
+    type    = string
+    default = ""
+  }
+  variable "project_number" {
+    type    = string
+    default = ""
+  }
+  variable "service_account_key" {
+    type    = string
+    default = "
+  }
+  variable "github_repo_owner" {
+    type    = string
+    default = ""
+  }
+  variable "github_repo" {
+    type    = string
+    default = ""
+  }
+```
+
+2. Run `bash run-me-first.sh`
+3. Connect github repo with all this code to cloud build trigger in the console. Cloud Build ➡️ Triggers ➡️ Manage repos ➡️ Connect repo
+4. Run `terraform apply --auto-approve` (you might have to run this again if you get this error)
+
+- `` Request `Enable Project Service "basic-express-api-3ac50ge6prcod.apigateway.chrome-courage-336400.cloud.goog" for project "chrome-courage-336400"` returned error: failed to send enable services request: googleapi: Error 403: Not found or permission denied for service(s): basic-express-api-3ac50ge6prcod.apigateway.chrome-courage-336400.cloud.goog. ``
+
+5. Create an API key to use in making a request to the container using API Gateway's default hostname URL path. APIs and services ➡️ Credentials ➡️ Create credentials
+
+- Test by hitting the default hostname (aka Gateway URL) with our path, which should [follow](https://cloud.google.com/api-gateway/docs/deploying-api#defining_the_endpoint_of_the_deployed_api_config) `https://basic-express-gw-<hash>.<region>.gateway.dev/hello?key=<API_key>`
+  - The region in the Gateway URL above might not be what is in your `variables.tf`, not sure why...
+  - You can find this URL at API Gateway ➡️ basic-express-api ➡️ Gateways
+    - You can also run `gcloud api-gateway gateways describe basic-express-gw --location=<region>`
+  - If this works the way it should, once hitting this endpoint, you will see something like `response from basic-express app / version:22804d19-5947-4d95-bd69-5a12c0b1d339`
 
 ### notes
 
-- If user doesn't include API key after path API Gateway will return this error message.
+- If container images are nested in a repo (the way I have it structured here) you have to pay particular attention to the `Dockerfile` and `cloudbuild.yaml`, you can't just copy paste code into these two files from docs because the docs assume you have a flat project/repo structure and the container image source code is not nested, look at these 2 files for more guidance and links.
+- If the user doesn't include API key after path API Gateway will return this error message.
   - `{"code":401,"message":"UNAUTHENTICATED:Method doesn't allow unregistered callers (callers without established identity). Please use API Key or other form of API consumer identity to call this API."}`
   - URLs will need to look like this, with `hello` being the path and the `?key...` being the query string.
     - `https://my-gateway-a12bcd345e67f89g0h.uc.gateway.dev/hello?key=<API_key>`
     - The API key can be generated in the "Credentials" page of "APIs & Services"
-- If a similar 403 error as below is returned when hitting the URL correctly (with the correct path and API key) it means that the API gateway managed service needs to be enabled (why it's not enabled from the point of provisioning I don't know)
+- If a similar 403 error as below is returned when hitting the URL correctly (with the correct path and API key) it means that the API gateway managed service needs to be enabled (why it's not enabled from the point of provisioning `google_api_gateway_api` tf resource I don't know)
   - `{"message":"PERMISSION_DENIED:API basic-express-api-1yy1jgrw4nwy2.apigateway.chrome-courage-336400.cloud.goog is not enabled for the project.","code":403}`
-  - Enable the API Gateway managed service with [`gcloud services enable <managed_service>`](https://cloud.google.com/sdk/gcloud/reference/services/enable)
+  - You can enable the API Gateway managed service with [`gcloud services enable <managed_service>`](https://cloud.google.com/sdk/gcloud/reference/services/enable) - **but you don't have to because it's part of the tf code in `apis.tf`**, a service called "managed_service_api_gateway_creates" and it's set up to only provision itself AFTER the API Gateway resource is created.
   - https://stackoverflow.com/a/70523505/8379751
+- Why Artifact Registry over Container Registry?
+  - "While Container Registry is still available and will continue to be supported as a Google Enterprise API, going forward new features will only be available in Artifact Registry, and Container Registry will only receive critical security fixes." - https://cloud.google.com/blog/products/application-development/understanding-artifact-registry-vs-container-registry
+    - https://cloud.google.com/artifact-registry/docs/transition/transition-from-gcr#compare
+    - https://cloud.google.com/artifact-registry/docs/transition/changes-gcp#artifact-registry_2
 
 ## prototype b
 
