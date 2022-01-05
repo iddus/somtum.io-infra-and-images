@@ -5,20 +5,6 @@ import { Storage } from "@google-cloud/storage";
 // Creates a client
 const storage = new Storage({ projectId, keyFilename });
 
-const listBuckets = () => {
-  async function listBuckets() {
-    const [buckets] = await storage.getBuckets();
-    console.log("Buckets:");
-    buckets.forEach((bucket) => {
-      console.log(bucket.metadata);
-    });
-  }
-  listBuckets().catch(console.error);
-};
-
-listBuckets();
-// https://github.com/googleapis/nodejs-storage/blob/main/samples/listBuckets.js
-
 const getObject = async (bucketName, object) => {
   const fileData = await storage.bucket(bucketName).file(object).get();
   console.log(fileData[1]);
@@ -32,7 +18,7 @@ const listObjects = (bucketName) => {
     console.log("Files:");
     files.forEach((file) => {
       console.log(file.name);
-      // `file` object doesn't provide any useful file information, so using get method
+      // `file` object doesn't provide any useful file information, so using getObject method defined above
       getObject(bucketName, file.name);
     });
   }

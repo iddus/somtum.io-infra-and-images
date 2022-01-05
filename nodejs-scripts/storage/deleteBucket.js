@@ -12,7 +12,6 @@ function deleteBucket(bucketName = "my-bucket") {
   }
   deleteBucket().catch(console.error);
 }
+// https://github.com/googleapis/nodejs-storage/blob/main/samples/deleteFile.js
 
 deleteBucket(...process.argv.slice(2));
-
-// https://github.com/googleapis/nodejs-storage/blob/main/samples/deleteFile.js
