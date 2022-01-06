@@ -18,8 +18,8 @@ const listObjects = (bucketName) => {
     console.log("Files:");
     files.forEach((file) => {
       console.log(file.name);
-      // `file` object doesn't provide any useful file information, so using getObject method defined above
-      getObject(bucketName, file.name);
+      // `file` object doesn't provide any useful file information, so using getObject method defined above - NOT TRUE!!!, `file.metadata` has useful file information, so no need to chain `getObject` method above, `getObject` gives you the same information as `file.metadata`
+      // getObject(bucketName, file.name);
     });
   }
   listFiles().catch(console.error);
