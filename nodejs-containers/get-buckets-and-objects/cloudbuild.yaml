@@ -1,0 +1,40 @@
+steps:
+  # Build the container image
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_IMAGE_REPO}/${_IMAGE}:latest",
+        ".",
+        "-f",
+        "nodejs-containers/get-buckets-and-objects/Dockerfile",
+      ]
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "push",
+        "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_IMAGE_REPO}/${_IMAGE}:latest",
+      ]
+  # Deploy container image to Cloud Run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args:
+      [
+        "run",
+        "deploy",
+        "${_SERVICE}",
+        "--image",
+        "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_IMAGE_REPO}/${_IMAGE}:latest",
+        "--region",
+        "${_REGION}",
+      ]
+options:
+  logging: CLOUD_LOGGING_ONLY
+substitutions:
+  _IMAGE_REPO: nodejs-containers
+  _IMAGE: get-buckets-and-objects-container
+  _SERVICE: get-buckets-and-objects-microservice
+  _REGION: us-east4
+images:
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_IMAGE_REPO}/${_IMAGE}:latest
