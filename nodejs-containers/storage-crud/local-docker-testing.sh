@@ -1,4 +1,4 @@
-tag=get-buckets-and-objects
+tag=storage-crud
 expressAppRoute=/everything
 # created this route just for testing, it doesn't do anything but return the string 'everything', I think we can't test /buckets or /objects/:bucket because the container doesn't have access to the service account key json file
 
