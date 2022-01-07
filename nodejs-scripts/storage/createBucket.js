@@ -35,3 +35,4 @@ process.on("unhandledRejection", (err) => {
 });
 
 createBucket(...process.argv.slice(2));
+// https://github.com/googleapis/nodejs-storage/blob/main/samples/createBucketWithStorageClassAndLocation.js
