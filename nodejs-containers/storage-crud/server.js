@@ -2,6 +2,7 @@ import express from "express";
 import listBuckets from "./listBuckets.js";
 import listObjects from "./listObjects.js";
 import createBucket from "./createBucket.js";
+import deleteBucket from "./deleteBucket.js";
 
 const HOST = "0.0.0.0";
 const PORT = process.env.PORT || 8080;
@@ -24,11 +25,18 @@ app.get("/objects/:bucket", async (req, res) => {
   res.status(200).json(objects);
 });
 
-app.post("/bucket/:name", async (req, res) => {
+app.post("/buckets/:name", async (req, res) => {
   const { name } = req.params;
   const response = await createBucket(name);
   res.status(200).json(response);
   // will error if trying to create bucket with name of existing bucket
+});
+
+app.delete("/buckets/:name", async (req, res) => {
+  const { name } = req.params;
+  const response = await deleteBucket(name);
+  res.status(200).json(response);
+  // will error if trying to delete bucket with name that doesn't exist
 });
 
 app.listen(PORT, HOST);
