@@ -2,6 +2,9 @@ import express from "express";
 import listBuckets from "./listBuckets.js";
 import listObjects from "./listObjects.js";
 import createBucket from "./createBucket.js";
+import deleteBucket from "./deleteBucket.js";
+import deleteObject from "./deleteObject.js";
+import updateObject from "./updateObject.js";
 
 const HOST = "0.0.0.0";
 const PORT = process.env.PORT || 8080;
@@ -24,11 +27,35 @@ app.get("/objects/:bucket", async (req, res) => {
   res.status(200).json(objects);
 });
 
-app.post("/bucket/:name", async (req, res) => {
+app.post("/buckets/:name", async (req, res) => {
   const { name } = req.params;
   const response = await createBucket(name);
   res.status(200).json(response);
   // will error if trying to create bucket with name of existing bucket
+});
+
+app.delete("/buckets/:name", async (req, res) => {
+  const { name } = req.params;
+  const response = await deleteBucket(name);
+  res.status(200).json(response);
+  // will error if trying to delete bucket with name that doesn't exist
+});
+
+app.delete("/objects/:bucket/:name", async (req, res) => {
+  const { bucket } = req.params;
+  const { name } = req.params;
+  const response = await deleteObject(bucket, name);
+  res.status(200).json(response);
+  // will error if trying to delete bucket with name that doesn't exist
+});
+
+app.put("/objects/:bucket/:name/:newName", async (req, res) => {
+  const { bucket } = req.params;
+  const { name } = req.params;
+  const { newName } = req.params;
+  const response = await updateObject(bucket, name, newName);
+  res.status(200).json(response);
+  // will error if trying to delete bucket with name that doesn't exist
 });
 
 app.listen(PORT, HOST);
