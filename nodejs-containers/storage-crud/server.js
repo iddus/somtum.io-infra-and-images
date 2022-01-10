@@ -20,7 +20,10 @@ app.get("/buckets", async (req, res) => {
   try {
     buckets = await listBuckets();
   } catch (error) {
-    return res.status(400)({ error: error.toString() });
+    console.log(error);
+    return res
+      .status(error.code)
+      .json({ code: error.code, message: error.errors[0].message });
   }
   return res.status(200).json(buckets);
 });
@@ -98,8 +101,6 @@ app.put("/objects/:bucket/:name/:newname", async (req, res) => {
       .json({ code: error.code, message: error.errors[0].message });
   }
   return res.status(200).json(response);
-  // will error if trying to rename object that doesn't exist
-  // will error if name doesn't meet naming requirements
   // https://cloud.google.com/storage/docs/naming-objects#objectnames
 });
 
