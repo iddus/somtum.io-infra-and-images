@@ -12,50 +12,95 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 
 app.get("/everything", (req, res) => {
-  res.status(200).json("everything");
+  return res.status(200).json("everything");
 });
 
 app.get("/buckets", async (req, res) => {
-  const buckets = await listBuckets();
-  res.status(200).json(buckets);
+  let buckets;
+  try {
+    buckets = await listBuckets();
+  } catch (error) {
+    return res.status(400)({ error: error.toString() });
+  }
+  return res.status(200).json(buckets);
 });
 // https://zellwk.com/blog/async-await-express/
 
 app.get("/objects/:bucket", async (req, res) => {
-  const { bucket } = req.params;
-  const objects = await listObjects(bucket);
-  res.status(200).json(objects);
+  let objects;
+  try {
+    const { bucket } = req.params;
+    objects = await listObjects(bucket);
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(error.code)
+      .json({ code: error.code, message: error.errors[0].message });
+  }
+  return res.status(200).json(objects);
 });
 
 app.post("/buckets/:name", async (req, res) => {
-  const { name } = req.params;
-  const response = await createBucket(name);
-  res.status(200).json(response);
-  // will error if trying to create bucket with name of existing bucket
+  let response;
+  try {
+    const { name } = req.params;
+    response = await createBucket(name);
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(error.code)
+      .json({ code: error.code, message: error.errors[0].message });
+  }
+  return res.status(200).json(response);
+  // https://cloud.google.com/storage/docs/naming-buckets#requirements
 });
 
 app.delete("/buckets/:name", async (req, res) => {
-  const { name } = req.params;
-  const response = await deleteBucket(name);
-  res.status(200).json(response);
-  // will error if trying to delete bucket with name that doesn't exist
+  let response;
+  try {
+    const { name } = req.params;
+    response = await deleteBucket(name);
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(error.code)
+      .json({ code: error.code, message: error.errors[0].message });
+  }
+  return res.status(200).json(response);
 });
 
 app.delete("/objects/:bucket/:name", async (req, res) => {
-  const { bucket } = req.params;
-  const { name } = req.params;
-  const response = await deleteObject(bucket, name);
-  res.status(200).json(response);
-  // will error if trying to delete bucket with name that doesn't exist
+  let response;
+  try {
+    const { bucket } = req.params;
+    const { name } = req.params;
+    response = await deleteObject(bucket, name);
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(error.code)
+      .json({ code: error.code, message: error.errors[0].message });
+  }
+  return res.status(200).json(response);
 });
 
-app.put("/objects/:bucket/:name/:newName", async (req, res) => {
-  const { bucket } = req.params;
-  const { name } = req.params;
-  const { newName } = req.params;
-  const response = await updateObject(bucket, name, newName);
-  res.status(200).json(response);
-  // will error if trying to delete bucket with name that doesn't exist
+app.put("/objects/:bucket/:name/:newname", async (req, res) => {
+  let response;
+  try {
+    const { bucket } = req.params;
+    const { name } = req.params;
+    const { newname: newName } = req.params;
+    response = await updateObject(bucket, name, newName);
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(error.code)
+      .json({ code: error.code, message: error.errors[0].message });
+  }
+  return res.status(200).json(response);
+  // will error if trying to rename object that doesn't exist
+  // will error if name doesn't meet naming requirements
+  // https://cloud.google.com/storage/docs/naming-objects#objectnames
 });
 
 app.listen(PORT, HOST);
