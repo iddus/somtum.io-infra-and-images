@@ -19,8 +19,12 @@ app.get("/buckets", async (req, res) => {
   let buckets;
   try {
     buckets = await listBuckets();
+    // returns an array of bucket objects
   } catch (error) {
-    return res.status(400)({ error: error.toString() });
+    console.log(error);
+    return res
+      .status(error.code)
+      .json({ code: error.code, message: error.errors[0].message });
   }
   return res.status(200).json(buckets);
 });
@@ -31,6 +35,7 @@ app.get("/objects/:bucket", async (req, res) => {
   try {
     const { bucket } = req.params;
     objects = await listObjects(bucket);
+    // returns an array of objects in the bucket
   } catch (error) {
     console.log(error);
     return res
@@ -45,6 +50,7 @@ app.post("/buckets/:name", async (req, res) => {
   try {
     const { name } = req.params;
     response = await createBucket(name);
+    // returns an object with metadata of created bucket
   } catch (error) {
     console.log(error);
     return res
@@ -60,6 +66,7 @@ app.delete("/buckets/:name", async (req, res) => {
   try {
     const { name } = req.params;
     response = await deleteBucket(name);
+    // returns an object with data like date/time of deletion and nothing else of importance to UI...
   } catch (error) {
     console.log(error);
     return res
@@ -75,6 +82,7 @@ app.delete("/objects/:bucket/:name", async (req, res) => {
     const { bucket } = req.params;
     const { name } = req.params;
     response = await deleteObject(bucket, name);
+    // returns an object with data like date/time of deletion and nothing else of importance to UI...
   } catch (error) {
     console.log(error);
     return res
@@ -91,6 +99,7 @@ app.put("/objects/:bucket/:name/:newname", async (req, res) => {
     const { name } = req.params;
     const { newname: newName } = req.params;
     response = await updateObject(bucket, name, newName);
+    // returns an object with metadata of updated object
   } catch (error) {
     console.log(error);
     return res
@@ -98,8 +107,6 @@ app.put("/objects/:bucket/:name/:newname", async (req, res) => {
       .json({ code: error.code, message: error.errors[0].message });
   }
   return res.status(200).json(response);
-  // will error if trying to rename object that doesn't exist
-  // will error if name doesn't meet naming requirements
   // https://cloud.google.com/storage/docs/naming-objects#objectnames
 });
 
