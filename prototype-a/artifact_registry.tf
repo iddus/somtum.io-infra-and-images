@@ -1,4 +1,4 @@
-resource "google_artifact_registry_repository" "my-repo" {
+resource "google_artifact_registry_repository" "nodejs-containers" {
   provider      = google-beta
   location      = var.region
   repository_id = "nodejs-containers"
