@@ -8,10 +8,9 @@ const storage = new Storage({ projectId, keyFilename });
 const listObjects = async (bucket) => {
   let formatted = [];
   const [files] = await storage.bucket(bucket).getFiles();
-  files.forEach(async (file) => {
-    const object = { [file.name]: file.metadata };
-    // https://attacomsian.com/blog/javascript-computed-property-names
-    formatted.push(object);
+  files.forEach((file) => {
+    // console.log(file.metadata);
+    formatted.push(file.metadata);
   });
   return formatted;
 };
