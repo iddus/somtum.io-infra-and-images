@@ -1,0 +1,129 @@
+# openapi2-run.yaml
+swagger: "2.0"
+info:
+  title: storage-crud-api
+  description: openapi spec file for backend cloud run node.js express app
+  version: 1.0.0
+schemes:
+  - https
+x-google-backend:
+  address: https://storage-crud-microservice-44beddciua-uk.a.run.app
+security:
+  - api_key: []
+produces:
+  - application/json
+consumes:
+  - application/json
+paths:
+  /test:
+    get:
+      summary: returns a JSON string "this works!"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: string
+  /buckets:
+    get:
+      summary: fetches an array of buckets and their meta-data
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+  /objects/{bucket}:
+    get:
+      summary: fetches an array of objects (both in the data structure and gcp storage sense) and their meta-data
+      parameters:
+        - in: path
+          name: bucket
+          required: true
+          type: string
+          minimum: 1
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+  /buckets/{name}:
+    post:
+      summary: creates a new bucket
+      parameters:
+        - in: path
+          name: name
+          required: true
+          type: string
+          minimum: 1
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+  /buckets/{name}:
+    delete:
+      summary: deletes an existing bucket
+      parameters:
+        - in: path
+          name: name
+          required: true
+          type: string
+          minimum: 1
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+  /objects/{bucket}/{name}:
+    delete:
+      summary: deletes an existing
+      parameters:
+        - in: path
+          name: bucket
+          required: true
+          type: string
+          minimum: 1
+        - in: path
+          name: name
+          required: true
+          type: string
+          minimum: 1
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+  /objects/{bucket}/{name}/{newname}:
+    put:
+      summary: updates the name of an existing object
+      parameters:
+        - in: path
+          name: bucket
+          required: true
+          type: string
+          minimum: 1
+        - in: path
+          name: name
+          required: true
+          type: string
+          minimum: 1
+        - in: path
+          name: newname
+          required: true
+          type: string
+          minimum: 1
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+
+# kept getting a 404 error when I tried to have a simple `/` path, I copied this verbatim from here (https://cloud.google.com/api-gateway/docs/get-started-cloud-run#creating_an_api_config) and just got rid of the `/assets/{asset}:` path
+# whatever is here has to match express.js routes in the server.js file, e.g., for ^ to work I needed to set `app.get("/hello", (req, res)...`
+# https://swagger.io/docs/specification/2-0/basic-structure/
+
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "key"
+    in: "query"
+# https://github.com/GoogleCloudPlatform/endpoints-samples/blob/master/k8s/openapi.yaml

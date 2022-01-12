@@ -11,15 +11,15 @@ const PORT = process.env.PORT || 8080;
 
 const app = express();
 
-app.get("/everything", (req, res) => {
-  return res.status(200).json("everything");
+app.get("/test", (req, res) => {
+  return res.status(200).json("this works!");
 });
 
 app.get("/buckets", async (req, res) => {
   let buckets;
   try {
     buckets = await listBuckets();
-    // returns an array of bucket objects
+    // returns an array of buckets and their meta-data
   } catch (error) {
     console.log(error);
     return res
@@ -35,7 +35,7 @@ app.get("/objects/:bucket", async (req, res) => {
   try {
     const { bucket } = req.params;
     objects = await listObjects(bucket);
-    // returns an array of objects in the bucket
+    // returns an array of objects and their meta-data
   } catch (error) {
     console.log(error);
     return res

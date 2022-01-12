@@ -8,13 +8,13 @@ gcloud auth configure-docker us-east4-docker.pkg.dev
 # https://cloud.google.com/artifact-registry/docs/docker/quickstart#auth
 
 # building the container image from it's source directory is just easier and not as error prone...
-cd ../nodejs-containers/basic-express
+cd ../nodejs-containers/storage-crud
 
 # setting container image variables
 REGION=us-east4
 PROJECT_ID=chrome-courage-336400
 IMAGE_REPO=nodejs-containers
-IMAGE=basic-express-container
+IMAGE=storage-crud-container
 # this dockerfile is different from the one we'll be using in Cloud Build for our Continious Delivery https://nodejs.org/en/docs/guides/nodejs-docker-webapp/#creating-a-dockerfile
 DOCKERFILE_PATH=Dockerfile.local
 
