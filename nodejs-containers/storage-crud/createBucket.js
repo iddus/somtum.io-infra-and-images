@@ -1,9 +1,6 @@
 // Imports the Google Cloud client library
 import client from "./client.js";
 
-// Creates a client
-// const storage = client();
-
 const createBucket = async (
   name,
   storageClass = "nearline",
