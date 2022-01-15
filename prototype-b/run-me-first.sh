@@ -1,6 +1,7 @@
 terraform init
 
-# only provisioning artifact registry repo
+# only provisioning artifact registry repo and associated api(s) - not sure if we need anything other than the artifact registry api
+terraform apply -target google_project_service.artifact_registry --auto-approve
 terraform apply -target google_artifact_registry_repository.nodejs-containers --auto-approve
 
 # "Before you can push or pull images, configure Docker to use the gcloud command-line tool to authenticate requests to Artifact Registry."

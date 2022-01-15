@@ -4,7 +4,7 @@ resource "google_cloud_run_service" "storage_crud_microservice" {
   location = var.region
   template {
     spec {
-      service_account_name = "serviceAccount:${google_service_account.cloud_run_storage_crud_sa.email}"
+      service_account_name = google_service_account.cloud_run_storage_crud_sa.email
       # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloud_run_service#service_account_name
       containers {
         # image = "us-docker.pkg.dev/cloudrun/container/hello"

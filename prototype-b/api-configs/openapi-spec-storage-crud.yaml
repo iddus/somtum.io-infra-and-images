@@ -18,6 +18,7 @@ paths:
   /test:
     get:
       summary: returns a JSON string "this works!"
+      operationId: getTestMessage
       responses:
         200:
           description: OK
@@ -26,6 +27,7 @@ paths:
   /buckets:
     get:
       summary: fetches an array of buckets and their meta-data
+      operationId: getBuckets
       responses:
         200:
           description: OK
@@ -34,6 +36,7 @@ paths:
   /objects/{bucket}:
     get:
       summary: fetches an array of objects (both in the data structure and gcp storage sense) and their meta-data
+      operationId: getObjects
       parameters:
         - in: path
           name: bucket
@@ -48,6 +51,7 @@ paths:
   /buckets/{name}:
     post:
       summary: creates a new bucket
+      operationId: addBucket
       parameters:
         - in: path
           name: name
@@ -62,6 +66,7 @@ paths:
   /buckets/{name}:
     delete:
       summary: deletes an existing bucket
+      operationId: deleteBucket
       parameters:
         - in: path
           name: name
@@ -75,7 +80,8 @@ paths:
             type: object
   /objects/{bucket}/{name}:
     delete:
-      summary: deletes an existing
+      summary: deletes an existing object
+      operationId: deleteObject
       parameters:
         - in: path
           name: bucket
@@ -95,6 +101,7 @@ paths:
   /objects/{bucket}/{name}/{newname}:
     put:
       summary: updates the name of an existing object
+      operationId: putObject
       parameters:
         - in: path
           name: bucket
