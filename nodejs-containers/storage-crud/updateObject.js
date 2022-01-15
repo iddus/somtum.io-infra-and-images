@@ -1,11 +1,7 @@
-import { projectId, keyFilename } from "./secrets.js";
-// Imports the Google Cloud client library
-import { Storage } from "@google-cloud/storage";
-
-// Creates a client
-const storage = new Storage({ projectId, keyFilename });
+import client from "./client.js";
 
 const updateObject = async (bucket, name, newName) => {
+  const storage = await client();
   const response = await storage.bucket(bucket).file(name).rename(newName);
   return response[1];
 };
