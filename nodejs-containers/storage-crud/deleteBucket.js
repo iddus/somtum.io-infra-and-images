@@ -1,11 +1,7 @@
-import { projectId, keyFilename } from "./secrets.js";
-// Imports the Google Cloud client library
-import { Storage } from "@google-cloud/storage";
-
-// Creates a client
-const storage = new Storage({ projectId, keyFilename });
+import client from "./client.js";
 
 const deleteBucket = async (name) => {
+  const storage = await client();
   const response = await storage.bucket(name).delete();
   return response[0].headers;
 };

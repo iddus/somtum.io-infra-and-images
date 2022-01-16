@@ -35,6 +35,8 @@ resource "google_project_iam_custom_role" "cloud-run-storage-crud-custom-role" {
     "storage.objects.list",
     "storage.buckets.list",
     "storage.objects.update",
+    "storage.objects.create",
+    # ^ required for renaming objects, not sure why
   ]
 }
 

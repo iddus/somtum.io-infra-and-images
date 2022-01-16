@@ -1,11 +1,7 @@
-import { projectId, keyFilename } from "./secrets.js";
-// Imports the Google Cloud client library
-import { Storage } from "@google-cloud/storage";
-
-// Creates a client
-const storage = new Storage({ projectId, keyFilename });
+import client from "./client.js";
 
 const listObjects = async (bucket) => {
+  const storage = await client();
   let formatted = [];
   const [files] = await storage.bucket(bucket).getFiles();
   files.forEach((file) => {
