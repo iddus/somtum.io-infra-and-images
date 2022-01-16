@@ -33,6 +33,18 @@ paths:
           description: OK
           schema:
             type: array
+        400:
+          description: Bad request.
+          schema:
+            type: object
+        401:
+          description: Authorization information is missing or invalid.
+          schema:
+            type: object
+        404:
+          description: Not found.
+          schema:
+            type: object
   /objects/{bucket}:
     get:
       summary: fetches an array of objects (both in the data structure and gcp storage sense) and their meta-data
@@ -48,6 +60,18 @@ paths:
           description: OK
           schema:
             type: array
+        400:
+          description: Bad request.
+          schema:
+            type: object
+        401:
+          description: Authorization information is missing or invalid.
+          schema:
+            type: object
+        404:
+          description: Not found.
+          schema:
+            type: object
   /buckets/{name}:
     post:
       summary: creates a new bucket
@@ -63,7 +87,19 @@ paths:
           description: OK
           schema:
             type: object
-  /buckets/{name}:
+        400:
+          description: Bad request.
+          schema:
+            type: object
+        401:
+          description: Authorization information is missing or invalid.
+          schema:
+            type: object
+        404:
+          description: Not found.
+          schema:
+            type: object
+  # /buckets/{name}:
     delete:
       summary: deletes an existing bucket
       operationId: deleteBucket
@@ -76,6 +112,18 @@ paths:
       responses:
         200:
           description: OK
+          schema:
+            type: object
+        400:
+          description: Bad request.
+          schema:
+            type: object
+        401:
+          description: Authorization information is missing or invalid.
+          schema:
+            type: object
+        404:
+          description: Not found.
           schema:
             type: object
   /objects/{bucket}/{name}:
@@ -96,6 +144,18 @@ paths:
       responses:
         200:
           description: OK
+          schema:
+            type: object
+        400:
+          description: Bad request.
+          schema:
+            type: object
+        401:
+          description: Authorization information is missing or invalid.
+          schema:
+            type: object
+        404:
+          description: Not found.
           schema:
             type: object
   /objects/{bucket}/{name}/{newname}:
@@ -121,6 +181,18 @@ paths:
       responses:
         200:
           description: OK
+          schema:
+            type: object
+        400:
+          description: Bad request.
+          schema:
+            type: object
+        401:
+          description: Authorization information is missing or invalid.
+          schema:
+            type: object
+        404:
+          description: Not found.
           schema:
             type: object
 
