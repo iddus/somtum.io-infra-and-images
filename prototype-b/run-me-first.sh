@@ -1,8 +1,8 @@
 # setting container image build variables
 REGION=us-east4
 PROJECT_ID=chrome-courage-336400
-IMAGE_REPO=nodejs-containers
-IMAGE=storage-crud-container
+ARTIFACT_REGISTRY_REPO_NAME=nodejs-containers
+IMAGE_NAME=storage-crud-container
 
 terraform init
 
@@ -22,10 +22,10 @@ DOCKERFILE_PATH=Dockerfile.infra
 # https://nodejs.org/en/docs/guides/nodejs-docker-webapp/#creating-a-dockerfile
 
 # building container image
-docker build -t $REGION-docker.pkg.dev/$PROJECT_ID/$IMAGE_REPO/$IMAGE:latest . -f ${DOCKERFILE_PATH}
+docker build -t $REGION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REGISTRY_REPO_NAME/$IMAGE_NAME:latest . -f ${DOCKERFILE_PATH}
 
 # pushing container image
-docker push $REGION-docker.pkg.dev/$PROJECT_ID/$IMAGE_REPO/$IMAGE:latest
+docker push $REGION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REGISTRY_REPO_NAME/$IMAGE_NAME:latest
 
 # returning to the directory where this bash script lives
 cd ../../prototype-a

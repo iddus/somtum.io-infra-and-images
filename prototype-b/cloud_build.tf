@@ -3,7 +3,7 @@ resource "google_cloudbuild_trigger" "storage_crud_trigger" {
   included_files = ["nodejs-containers/storage-crud/**"]
   github {
     owner = var.github_repo_owner
-    name  = var.github_repo
+    name  = var.github_repo_name
     # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloudbuild_trigger#included_files
     push {
       branch = "^main$"
