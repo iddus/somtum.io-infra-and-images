@@ -11,7 +11,7 @@ resource "google_cloud_run_service" "storage_crud_microservice" {
         # idea is to create and maintain resources with this dummy image, but then have cloudbuild build and push the actual image to container registry and then deploy to this cloud run service using the gcloud run deploy command
         # this will load a cute gcp dummy app with a girl, unicorn and boy saying "It's running!"
         # ^ strategy is really unsustainable, need a better methodology
-        image = "us-east4-docker.pkg.dev/chrome-courage-336400/nodejs-containers/storage-crud-container:latest"
+        image = "${var.region}-docker.pkg.dev/${var.project_id}/nodejs-containers/storage-crud-container:latest"
         # https://cloud.google.com/artifact-registry/docs/docker/names#versions
       }
     }

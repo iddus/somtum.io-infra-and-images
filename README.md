@@ -38,7 +38,7 @@ abbreviations:
     type    = string
     default = ""
   }
-  variable "github_repo" {
+  variable "github_repo_name" {
     type    = string
     default = ""
   }
