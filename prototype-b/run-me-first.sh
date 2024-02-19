@@ -1,6 +1,4 @@
 # setting container image build variables
-REGION=us-east4
-PROJECT_ID=chrome-courage-336400
 REGION=me-central1
 PROJECT_ID=silk-414217
 ARTIFACT_REGISTRY_REPO_NAME=nodejs-containers
@@ -30,4 +28,4 @@ docker build -t $REGION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REGISTRY_REPO_NAME/
 docker push $REGION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REGISTRY_REPO_NAME/$IMAGE_NAME:latest
 
 # returning to the directory where this bash script lives
-cd ../../prototype-a
+cd ../../prototype-a-
