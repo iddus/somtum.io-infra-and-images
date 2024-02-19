@@ -1,6 +1,8 @@
 # setting container image build variables
 REGION=us-east4
 PROJECT_ID=chrome-courage-336400
+REGION=me-central1
+PROJECT_ID=silk-414217
 ARTIFACT_REGISTRY_REPO_NAME=nodejs-containers
 IMAGE_NAME=storage-crud-container
 
